@@ -34,11 +34,15 @@ public class LoginSteps extends TestBaseNative {
 
     @And("^fill in valid credentials$")
     public void fill_in_valid_credentials() throws Throwable {
+        login("eu@fast.com", "eu.pass");
+    }
+
+    private void login(String emailValue, String passwordValue) {
         WebElement email = driver.findElement(By.id("email"));
-        email.sendKeys("eu@fast.com");
+        email.sendKeys(emailValue);
 
         WebElement password = driver.findElement(By.id("password"));
-        password.sendKeys("eu.pass");
+        password.sendKeys(passwordValue);
     }
 
     @When("^clicking the login button$")
@@ -51,18 +55,17 @@ public class LoginSteps extends TestBaseNative {
     public void the_user_is_logged_in() throws Throwable {
         // Cucumber doens't tell the differece between a fail on an assert and a fail on the step
         WebElement logoutText = driver.findElement(By.xpath("//*[contains(text(), 'Logout')]"));
-        assertThat(true, is(true));
+        System.out.println(logoutText.getAttribute("class"));
     }
 
-    @And("^fill in invalid credentials$")
+    @Given("^fill in invalid credentials$")
     public void fill_in_invalid_credentials() throws Throwable {
-        // Express the Regexp above with the code you wish you had
-        throw new PendingException();
+        login("eu@fast.com", "eroare");
     }
 
     @Then("^the invalid credetials error message is displayed$")
     public void the_invalid_credetials_error_message_is_displayed() throws Throwable {
-        // Express the Regexp above with the code you wish you had
-        throw new PendingException();
+        WebElement error = driver.findElement(By.className("error-msg"));
+        assertThat(error.getText(), is("Invalid user or password!"));
     }
 }
