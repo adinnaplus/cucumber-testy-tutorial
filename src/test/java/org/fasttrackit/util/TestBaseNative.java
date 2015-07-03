@@ -23,11 +23,11 @@ public abstract class TestBaseNative {
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait((long) 150, TimeUnit.MILLISECONDS);
 
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                public void run() {
-                    driver.quit();
-                }
-            });
+//            Runtime.getRuntime().addShutdownHook(new Thread() {
+//                public void run() {
+//                    driver.quit();
+//                }
+//            });
         } catch (Exception e) {
             LOGGER.error("Exception when start suite", e);
         }
