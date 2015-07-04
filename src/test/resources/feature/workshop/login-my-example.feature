@@ -3,7 +3,8 @@ Feature: Login
 
   Scenario: Login Successfully
     Given I navigate to the login page
-    And fill in valid credentials
+    And fill in valid credentia
+  ls
     When clicking the login button
     Then the user is logged in
 
