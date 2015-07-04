@@ -1,17 +1,13 @@
 package org.fasttrackit.workshop.login;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.fasttrackit.util.TestBase;
-import org.fasttrackit.util.TestBaseNative;
 import org.fasttrackit.workshop.LoginView;
-import org.fasttrackit.workshop.pagefactory.login.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +16,8 @@ import static org.hamcrest.core.Is.is;
 
 public class LoginSteps extends TestBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginSteps.class);
+    public static final String VALID_EMAIL = "eu@fast.com";
+    public static String VALID_PASSWORD = "eu.pass";
 
 //    WEBDRIVER PAGE OBJECTS
 //    LoginPage loginPage;
@@ -42,7 +40,7 @@ public class LoginSteps extends TestBase {
 
     @And("^fill in valid credentials$")
     public void fill_in_valid_credentials()  {
-        loginView.enterCredentials("eu@fast.com", "eu.pass");
+        loginView.enterCredentials(VALID_EMAIL, VALID_PASSWORD);
     }
 
     @When("^clicking the login button$")
@@ -58,7 +56,7 @@ public class LoginSteps extends TestBase {
 
     @Given("^fill in invalid credentials$")
     public void fill_in_invalid_credentials()  {
-        loginView.enterCredentials("eu@fast.com", "eroare");
+        loginView.enterCredentials(VALID_EMAIL, "eroare");
     }
 
     @When("^I enter email \"([^\"]*)\" and password \"([^\"]*)\"$")
@@ -69,5 +67,13 @@ public class LoginSteps extends TestBase {
     @Then("^the login error message \"([^\"]*)\" is displayed$")
     public void the_login_error_message_is_displayed(String errorMessage)  {
         assertThat(loginView.getErrorMessage(), is(errorMessage)); // Matei ar pune si assets in LoginPage
+    }
+
+    @Given("^I successfully login$")
+    public void I_successfully_login() {
+        I_navigate_to_the_login_page();
+        fill_in_valid_credentials();
+        clicking_the_login_button();
+        the_user_is_logged_in();
     }
 }

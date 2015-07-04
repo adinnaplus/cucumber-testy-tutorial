@@ -29,4 +29,7 @@ public class LoginView {
         return error.getHtmlText();
     }
 
+    public void logout() {
+
+    }
 }
