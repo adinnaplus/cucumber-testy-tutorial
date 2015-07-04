@@ -9,6 +9,7 @@ import org.fasttrackit.util.TestBaseNative;
 import org.fasttrackit.workshop.pagefactory.login.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +20,14 @@ public class LoginSteps extends TestBaseNative {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginSteps.class);
 
     LoginPage loginPage;
+
+    public LoginSteps() {
+        initPage();
+    }
+
+    public void initPage() {
+        loginPage = PageFactory.initElements(driver, LoginPage.class);
+    }
 
     private void login(String emailValue, String passwordValue) {
         WebElement email = driver.findElement(By.id("email"));
@@ -47,8 +56,7 @@ public class LoginSteps extends TestBaseNative {
 
     @When("^clicking the login button$")
     public void clicking_the_login_button()  {
-        WebElement submitButton = driver.findElement(By.id("loginButton"));
-        submitButton.click();
+        loginPage.clickOnLoginButton();
     }
 
     @Then("^the user is logged in$")
