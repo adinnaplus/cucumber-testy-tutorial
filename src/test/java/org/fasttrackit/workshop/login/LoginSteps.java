@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class LoginSteps extends TestBaseNative {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginSteps.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(LoginSteps.class);
 
     LoginPage loginPage;
 
@@ -29,21 +29,6 @@ public class LoginSteps extends TestBaseNative {
         loginPage = PageFactory.initElements(driver, LoginPage.class);
     }
 
-    private void login(String emailValue, String passwordValue) {
-        WebElement email = driver.findElement(By.id("email"));
-        email.sendKeys(emailValue);
-
-        WebElement password = driver.findElement(By.id("password"));
-        password.sendKeys(passwordValue);
-    }
-
-    @When("^I enter email \"([^\"]*)\"$")
-    public void I_enter_email(String email) {
-        WebElement element = driver.findElement(By.id("email"));
-        element.sendKeys(email);
-        System.out.println("I enter email");
-    }
-
     @Given("^I navigate to the login page$")
     public void I_navigate_to_the_login_page()  {
         driver.navigate().to("file:///D:/Projects/Automation/installers/backup/app-demo/login.html");
@@ -51,7 +36,7 @@ public class LoginSteps extends TestBaseNative {
 
     @And("^fill in valid credentials$")
     public void fill_in_valid_credentials()  {
-        login("eu@fast.com", "eu.pass");
+        loginPage.enterCredentials("eu@fast.com", "eu.pass");
     }
 
     @When("^clicking the login button$")
@@ -68,22 +53,16 @@ public class LoginSteps extends TestBaseNative {
 
     @Given("^fill in invalid credentials$")
     public void fill_in_invalid_credentials()  {
-        login("eu@fast.com", "eroare");
-    }
-
-    @Then("^the invalid credetials error message is displayed$")
-    public void the_invalid_credetials_error_message_is_displayed()  {
-
+        loginPage.enterCredentials("eu@fast.com", "eroare");
     }
 
     @When("^I enter email \"([^\"]*)\" and password \"([^\"]*)\"$")
     public void I_enter_email_and_password(String email, String password)  {
-        login(email, password);
+        loginPage.enterCredentials(email, password);
     }
 
     @Then("^the login error message \"([^\"]*)\" is displayed$")
     public void the_login_error_message_is_displayed(String errorMessage)  {
-        WebElement error = driver.findElement(By.className("error-msg"));
-        assertThat(error.getText(), is(errorMessage));
+        assertThat(loginPage.getErrorMessage(), is(errorMessage)); // Matei ar pune si assets in LoginPage
     }
 }

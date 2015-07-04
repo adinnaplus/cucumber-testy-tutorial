@@ -14,8 +14,26 @@ public class LoginPage {
     @FindBy(how = How.ID, using = "loginButton")
     private WebElement submitButton;
 
+    @FindBy(how = How.ID, using = "email")
+    private WebElement email;
+
+    @FindBy(how = How.ID, using = "password")
+    private WebElement password;
+
+    @FindBy(how = How.CLASS_NAME, using = "error-msg")
+    private WebElement error;
+
     public void clickOnLoginButton() {
         submitButton.click();
+    }
+
+    public void enterCredentials(String emailValue, String passwordValue) {
+        email.sendKeys(emailValue);
+        password.sendKeys(passwordValue);
+    }
+
+    public String getErrorMessage() {
+        return error.getText();
     }
 
 }
